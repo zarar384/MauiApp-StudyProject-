@@ -3,12 +3,13 @@
     x:Class="MauiApp_StudyProject_.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:MauiApp_StudyProject_"
+    xmlns:local="clr-namespace:MauiApp_StudyProject_.ContentPages"
     Title="MauiApp_StudyProject_">
+    <!--xmlns:local="clr-namespace:MauiApp_StudyProject_"-->
 
     <ShellContent
         Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        ContentTemplate="{DataTemplate local:BeerChears}"
+        Route="BeerChears" />
 
 </Shell>
