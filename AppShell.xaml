@@ -9,7 +9,7 @@
 
     <ShellContent
         Title="Home"
-        ContentTemplate="{DataTemplate local:BeerChears}"
-        Route="BeerChears" />
+        ContentTemplate="{DataTemplate local:HumanLifeCycle}"
+        Route="HumanLifeCycle" />
 
 </Shell>

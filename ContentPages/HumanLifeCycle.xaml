@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp_StudyProject_.ContentPages.HumanLifeCycle"
+             Title="Human Life Cycle">
+    <VerticalStackLayout
+        VerticalOptions="Center"
+        HorizontalOptions="Center"
+        Spacing="20">
+
+        <Label 
+            x:Name="Age"
+            FontSize="48"
+            HorizontalOptions="Center"/>
+
+        <Label 
+            x:Name="LifeCycleLabel"
+            FontSize="48"
+            WidthRequest="60"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"/>
+
+        <Button 
+            Text="Grow" 
+            Clicked="Grow_Clicked" 
+            HorizontalOptions="Center"/>
+
+    </VerticalStackLayout>
+</ContentPage>
