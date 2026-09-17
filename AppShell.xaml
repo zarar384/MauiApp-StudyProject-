@@ -9,7 +9,7 @@
 
     <ShellContent
         Title="Home"
-        ContentTemplate="{DataTemplate local:ProfileLayoutPage}"
-        Route="ProfileLayoutPage" />
+        ContentTemplate="{DataTemplate local:ListOfBooks}"
+        Route="ListOfBooks" />
 
 </Shell>

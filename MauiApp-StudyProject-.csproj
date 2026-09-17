@@ -75,10 +75,16 @@
 	  <Compile Update="ContentPages\HumanLifeCycle.xaml.cs">
 	    <DependentUpon>HumanLifeCycle.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="ContentPages\ListOfBooks.xaml.cs">
+	    <DependentUpon>ListOfBooks.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <MauiXaml Update="ContentPages\HumanLifeCycle.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ContentPages\ListOfBooks.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ContentPages\ProfileLayoutPage.xaml">

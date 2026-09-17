@@ -9,6 +9,18 @@
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            
+            <!--My custom styles-->
+            <x:Double x:Key="HeadingFontSize">22</x:Double>
+            <Color x:Key="HeadingColor">#6750A4</Color>
+
+            <Style x:Key="SectionHeadingStyle"
+                     TargetType="Label">
+                <Setter Property="FontSize" Value="{StaticResource HeadingFontSize}" />
+                <Setter Property="TextColor" Value="{StaticResource HeadingColor}" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>
