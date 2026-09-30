@@ -2,31 +2,57 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiApp_StudyProject_.ContentPages.ListOfBooks"
-             Title="List Of Books">
-    <VerticalStackLayout Padding="24" Spacing="16">
+             xmlns:resources="clr-namespace:MauiApp_StudyProject_.Resources"
+             Title="List Of Books"
+             BackgroundColor="{x:Static resources:SharedResources.PageBackgroundColor}">
+    <VerticalStackLayout  x:Name="BooksLayout" Padding="24" Spacing="16">
         
-        <Label Text="My library" Style="{StaticResource SectionHeadingStyle}" />
+        <!--default-->
+        <!--<VerticalStackLayout  Padding="24" Spacing="16">-->
+        
+        <!--example of using OnPlatform to configure layout for different platforms--> 
+        <!--<VerticalStackLayout
+        Padding="{OnPlatform
+            iOS='20, 12, 20, 24',
+            Android='20',
+            WinUI='64, 32',
+            Default='24'}"
+        Spacing="{OnPlatform
+            iOS='12',
+            Android='12',
+            WinUI='20',
+            Default='16'}">-->
 
-        <Label Text="There you can find all your books." />
+        <Label Text="My library" 
+               Style="{StaticResource SectionHeadingStyle}" 
+               TextColor="{x:Static resources:SharedResources.BookTitleColor}"/>
 
-        <Label Text="Currently reading" Style="{StaticResource SectionHeadingStyle}" />
+        <Label Text="There you can find all your books." 
+               TextColor="{x:Static resources:SharedResources.PrimaryTextColor}"/>
+
+        <Label Text="Currently reading" 
+               Style="{StaticResource SectionHeadingStyle}"
+               TextColor="{x:Static resources:SharedResources.BookTitleColor}"/>
 
         <!--List of currently reading books-->
         <VerticalStackLayout Spacing="8" BindableLayout.ItemsSource="{Binding CurrentReadBooks}">
             <BindableLayout.ItemTemplate>
                 <DataTemplate>
-                    <Label Text="{Binding .}" />
+                    <Label Text="{Binding .}" 
+                           TextColor="{x:Static resources:SharedResources.PrimaryTextColor}"/>
                 </DataTemplate>
             </BindableLayout.ItemTemplate>
         </VerticalStackLayout>
 
-        <Label Text="Favorite books" Style="{StaticResource SectionHeadingStyle}" />
+        <Label Text="Favorite books" Style="{StaticResource SectionHeadingStyle}" 
+               TextColor="{x:Static resources:SharedResources.BookTitleColor}"/>
 
         <!--List of favorite books-->
         <VerticalStackLayout Spacing="8" BindableLayout.ItemsSource="{Binding FavoriteBooks}">
             <BindableLayout.ItemTemplate>
                 <DataTemplate>
-                    <Label Text="{Binding .}" />
+                    <Label Text="{Binding .}" 
+                           TextColor="{x:Static resources:SharedResources.PrimaryTextColor}"/>
                 </DataTemplate>
             </BindableLayout.ItemTemplate>
         </VerticalStackLayout>
