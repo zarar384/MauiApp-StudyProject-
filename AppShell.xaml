@@ -1,15 +1,90 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Shell
+<!--<Shell
     x:Class="MauiApp_StudyProject_.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:MauiApp_StudyProject_.ContentPages"
     Title="MauiApp_StudyProject_">
-    <!--xmlns:local="clr-namespace:MauiApp_StudyProject_"-->
+    --><!--xmlns:local="clr-namespace:MauiApp_StudyProject_"--><!--
 
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:ListOfBooks}"
         Route="ListOfBooks" />
 
+</Shell>-->
+
+    <!--Flyout Example-->
+<Shell
+    x:Class="MauiApp_StudyProject_.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MauiApp_StudyProject_.ContentPages"
+    FlyoutBehavior="Flyout">
+    
+    <FlyoutItem Title="Moje knihovna">
+        <ShellContent
+            Title="Knihy"
+            ContentTemplate="{DataTemplate local:ListOfBooks}"
+            Route="books" />
+    </FlyoutItem>
+    
+    <FlyoutItem Title="Profil">
+        <ShellContent
+            Title="Profil"
+            ContentTemplate="{DataTemplate local:ProfileLayoutPage}"
+            Route="profile" />
+    </FlyoutItem>
+    
+    <FlyoutItem Title="Životní cyklus">
+        <ShellContent
+            Title="Životní cyklus"
+            ContentTemplate="{DataTemplate local:HumanLifeCycle}"
+            Route="life-cycle" />
+    </FlyoutItem>
+    
+    <FlyoutItem Title="Cheers" Icon="dotnet_bot.png">
+        <ShellContent
+            Title="Cheers"
+            ContentTemplate="{DataTemplate local:BeerChears}"
+            Route="cheers" />
+    </FlyoutItem>
+    
 </Shell>
+
+    <!--TabBar Example-->
+<!--<Shell
+    x:Class="MauiApp_StudyProject_.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MauiApp_StudyProject_.ContentPages">
+
+    <TabBar>
+        
+        <Tab Title="Knihy" Icon="appiconfg.png">
+            <ShellContent
+                ContentTemplate="{DataTemplate local:ListOfBooks}"
+                Route="books" />
+        </Tab>
+        
+        <Tab Title="Profil" Icon="splash.png">
+            <ShellContent
+                ContentTemplate="{DataTemplate local:ProfileLayoutPage}"
+                Route="profile" />
+        </Tab>
+
+        <Tab Title="Životní cyklus" Icon="appicon.png">
+            <ShellContent
+                ContentTemplate="{DataTemplate local:HumanLifeCycle}"
+                Route="life-cycle" />
+        </Tab>
+        
+        <Tab Title="Cheers" Icon="dotnet_bot.png">
+            <ShellContent
+                ContentTemplate="{DataTemplate local:BeerChears}"
+                Route="cheers" />
+        </Tab>
+        
+    </TabBar>
+    
+</Shell>-->
