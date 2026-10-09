@@ -7,7 +7,7 @@ namespace MauiApp_StudyProject_.Services
 {
     public class BeerService
     {
-        public List<Beer> GetBeers()
+        public async Task<List<Beer>> GetBeersAsync(CancellationToken cancellationToken = default)
         {
             // In a real application, this method would retrieve data from a database or an API.
             return new List<Beer>

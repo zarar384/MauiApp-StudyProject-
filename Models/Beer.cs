@@ -1,9 +1,7 @@
 ﻿namespace MauiApp_StudyProject_.Models
 {
-    public class Beer
+    public class Beer : BaseEntity
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
         public string Description { get; set; }
