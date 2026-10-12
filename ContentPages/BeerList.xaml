@@ -1,0 +1,44 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:MauiApp_StudyProject_.Models"
+             xmlns:viewmodel="clr-namespace:MauiApp_StudyProject_.ViewModels"
+             x:Class="MauiApp_StudyProject_.ContentPages.BeerList"
+             x:DataType="viewmodel:BeerViewModel"
+             Title="{Binding Title}">
+    <Grid RowDefinitions="*,Auto"
+          RowSpacing="10">
+        <CollectionView Grid.Row="0"
+                        ItemsSource="{Binding Beers}"
+                        SelectionMode="None">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Beer">
+                    <Border StrokeThickness="1"
+                            Padding="10"
+                            Margin="5">
+
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="{Binding Name}"
+                                   FontAttributes="Bold"
+                                   FontSize="Medium"/>
+
+                            <Label Text="{Binding Description}"
+                                   FontSize="Small"/>
+
+                            <Label Text="{Binding AlcoholContent}"
+                                   FontSize="Small"/>
+                        </VerticalStackLayout>
+
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Grid.Row="1"
+                Text="Load Beers"
+                Command="{Binding LoadBeersCommand}"
+                IsEnabled="{Binding IsNotLoading}"
+                HorizontalOptions="Center"
+                Margin="10"/>
+    </Grid>
+</ContentPage>

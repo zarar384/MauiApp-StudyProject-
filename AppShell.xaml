@@ -22,7 +22,14 @@
     xmlns:local="clr-namespace:MauiApp_StudyProject_.ContentPages"
     FlyoutBehavior="Flyout">
     
-    <FlyoutItem Title="Moje knihovna">
+    <FlyoutItem Title="Seznam Piv" Icon="appiconfg.png">
+        <ShellContent
+            Title="Seznam Piv"
+            ContentTemplate="{DataTemplate local:BeerList}"
+            Route="home" />
+    </FlyoutItem>
+
+        <FlyoutItem Title="Moje knihovna">
         <ShellContent
             Title="Knihy"
             ContentTemplate="{DataTemplate local:ListOfBooks}"
