@@ -27,11 +27,15 @@ namespace MauiApp_StudyProject_.ViewModels
         private async Task LoadBeersAsync(CancellationToken cancellationToken = default)
         {
             if (IsLoading)
+            {
+                IsRefreshing = false;
                 return;
+            }
 
             try
             {
                 IsLoading = true;
+                IsRefreshing = true;
 
                 var beers = await _beerService.GetBeersAsync(cancellationToken);
 
@@ -58,7 +62,14 @@ namespace MauiApp_StudyProject_.ViewModels
             finally
             {
                 IsLoading = false;
+                IsRefreshing = false;
             }
+        }
+
+        [RelayCommand]
+        private void BeerSelected(Beer beer)
+        {
+            Console.WriteLine($"Selected: {beer.Name}");
         }
     }
 }

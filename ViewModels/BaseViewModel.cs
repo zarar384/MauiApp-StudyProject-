@@ -17,6 +17,9 @@ namespace MauiApp_StudyProject_.ViewModels
 
         public bool IsNotLoading => !IsLoading;
 
+        [ObservableProperty]
+        bool isRefreshing;
+
         #region INotifyPropertyChanged Implementation
         //string _title;
         //bool _isBusy;
