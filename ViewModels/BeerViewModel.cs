@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using MauiApp_StudyProject_.Models;
 using MauiApp_StudyProject_.Services;
+using MauiApp_StudyProject_.Views;
 using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
 
@@ -67,9 +68,18 @@ namespace MauiApp_StudyProject_.ViewModels
         }
 
         [RelayCommand]
-        private void BeerSelected(Beer beer)
+        private async Task BeerSelected(Beer beer)
         {
-            Console.WriteLine($"Selected: {beer.Name}");
+            _logger.LogInformation("Beer selected: {BeerName}", beer.Name);
+
+            if(beer == null)
+                return;
+
+            // Navigate to the BeerDetailPage and pass the selected beer as a parameter
+            await Shell.Current.GoToAsync($"{nameof(BeerDetailPage)}", new Dictionary<string, object>
+            {
+                { nameof(Beer), beer }
+            });
         }
     }
 }

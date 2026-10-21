@@ -22,9 +22,11 @@ public static class MauiProgram
 
         // Register view models
         builder.Services.AddSingleton<BeerViewModel>();
+		builder.Services.AddSingleton<BeerDetailViewModel>();
 
         // Register pages
         builder.Services.AddSingleton<ContentPages.BeerList>();
+		builder.Services.AddSingleton<Views.BeerDetailPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();
