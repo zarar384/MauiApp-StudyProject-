@@ -5,7 +5,7 @@ namespace MauiApp_StudyProject_.Models
     [Table("Beers")]
     public class Beer : BaseEntity
     {
-        [MaxLength(100), Unique, Indexed]
+        [MaxLength(100), Unique]
         public string Name { get; set; }
 
         [MaxLength(500)]

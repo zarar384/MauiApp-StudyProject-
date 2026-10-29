@@ -10,13 +10,13 @@ namespace MauiApp_StudyProject_.ViewModels
 {
     public partial class BeerViewModel : BaseViewModel
     {
-        private readonly BeerService _beerService;
+        private readonly IBeerService _beerService;
         private readonly ILogger<BeerViewModel> _logger;
 
         public ObservableCollection<Beer> Beers { get; } = new();
 
         public BeerViewModel(
-            BeerService beerService,
+            IBeerService beerService,
             ILogger<BeerViewModel> logger)
         {
             Title = "Beer List";
