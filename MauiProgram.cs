@@ -1,6 +1,8 @@
-﻿using MauiApp_StudyProject_.Services;
+﻿using MauiApp_StudyProject_.Data;
+using MauiApp_StudyProject_.Services;
 using MauiApp_StudyProject_.ViewModels;
 using Microsoft.Extensions.Logging;
+using SQLite;
 
 namespace MauiApp_StudyProject_;
 
@@ -17,8 +19,11 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
+		// Register SQLite connection
+		builder.Services.AddSingleton<AppDatabase>();
+
         // Register services
-        builder.Services.AddSingleton<BeerService>();
+        builder.Services.AddSingleton<IBeerService, BeerService>();
 
         // Register view models
         builder.Services.AddSingleton<BeerViewModel>();

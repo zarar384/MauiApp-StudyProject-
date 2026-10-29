@@ -3,6 +3,7 @@ using MauiApp_StudyProject_.Models;
 using MauiApp_StudyProject_.Services;
 using MauiApp_StudyProject_.Views;
 using Microsoft.Extensions.Logging;
+using SQLite;
 using System.Collections.ObjectModel;
 
 namespace MauiApp_StudyProject_.ViewModels
@@ -35,10 +36,12 @@ namespace MauiApp_StudyProject_.ViewModels
 
             try
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 IsLoading = true;
                 IsRefreshing = true;
 
-                var beers = await _beerService.GetBeersAsync(cancellationToken);
+                var beers = await _beerService.GetBeersAsync();
 
                 Beers.Clear();
 
@@ -50,6 +53,15 @@ namespace MauiApp_StudyProject_.ViewModels
             catch (OperationCanceledException)
             {
                 _logger.LogInformation("Loading beers operation was canceled.");
+            }
+            catch (SQLiteException sqlEx)
+            {
+                _logger.LogError(sqlEx, "SQLite error while loading beers");
+
+                await Shell.Current.DisplayAlertAsync(
+                    "Database Error",
+                    "An error occurred while accessing the database. Please try again later.",
+                    "OK");
             }
             catch (Exception ex)
             {

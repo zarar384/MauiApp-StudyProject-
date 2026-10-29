@@ -1,9 +1,14 @@
-﻿namespace MauiApp_StudyProject_.Models
+﻿using SQLite;
+
+namespace MauiApp_StudyProject_.Models
 {
+    [Table("Beers")]
     public class Beer : BaseEntity
     {
+        [MaxLength(100), Unique, Indexed]
         public string Name { get; set; }
 
+        [MaxLength(500)]
         public string Description { get; set; }
 
         /// <summary>
