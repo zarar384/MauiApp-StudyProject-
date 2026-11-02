@@ -21,41 +21,7 @@ namespace MauiApp_StudyProject_.ViewModels
         bool isRefreshing;
 
         #region INotifyPropertyChanged Implementation
-        //string _title;
-        //bool _isBusy;
 
-        //public string Title
-        //{
-        //    get => _title;
-        //    set
-        //    {
-        //        if (_title != value)
-        //        {
-        //            _title = value;
-        //            OnPropertyChanged();
-        //        }
-        //    }
-        //}
-
-        //public bool IsBusy
-        //{
-        //    get => _isBusy;
-        //    set
-        //    {
-        //        if (_isBusy != value)
-        //        {
-        //            _isBusy = value;
-        //            OnPropertyChanged();
-        //        }
-        //    }
-        //}
-
-        //public event PropertyChangedEventHandler? PropertyChanged;
-
-        //public void OnPropertyChanged([CallerMemberName] string? name = null)
-        //{
-        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        //}
         #endregion
     }
 }

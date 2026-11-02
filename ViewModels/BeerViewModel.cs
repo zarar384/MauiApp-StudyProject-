@@ -80,18 +80,75 @@ namespace MauiApp_StudyProject_.ViewModels
         }
 
         [RelayCommand]
-        private async Task BeerSelected(Beer beer)
+        private async Task ViewBeerAsync(Beer beer)
         {
-            _logger.LogInformation("Beer selected: {BeerName}", beer.Name);
-
-            if(beer == null)
-                return;
+            _logger.LogInformation("Beer selected: {BeerName}({BeerId})", beer.Name, beer.Id);
 
             // Navigate to the BeerDetailPage and pass the selected beer as a parameter
-            await Shell.Current.GoToAsync($"{nameof(BeerDetailPage)}", new Dictionary<string, object>
+            await Shell.Current.GoToAsync($"{nameof(BeerDetailPage)}?mode={BeerPageMode.View}&beerId={beer.Id}");
+        }
+
+        [RelayCommand]
+        private async Task AddBeerAsync()
+        {
+            _logger.LogInformation("Navigating to BeerDetailPage in Create mode.");
+
+            // Navigate to the BeerDetailPage in Create mode
+            await Shell.Current.GoToAsync($"{nameof(BeerDetailPage)}?mode={BeerPageMode.Create}");
+        }
+
+        [RelayCommand]
+        private async Task EditBeerAsync(Beer beer)
+        {
+            _logger.LogInformation("Navigating to BeerDetailPage in Edit mode. Beer: {BeerName}({BeerId})", beer.Name, beer.Id);
+            
+            // Navigate to the BeerDetailPage in Edit mode
+            await Shell.Current.GoToAsync($"{nameof(BeerDetailPage)}?mode={BeerPageMode.Edit}&beerId={beer.Id}");
+        }
+
+        [RelayCommand]
+        private async Task DeleteBeerAsync(Beer beer)
+        {
+            _logger.LogInformation("Attempting to delete beer: {BeerName}({BeerId})", beer.Name, beer.Id);
+
+            if (beer == null)
+                return;
+
+            bool confirmDelete = await Shell.Current.DisplayAlertAsync(
+                "Confirm Delete",
+                $"Are you sure you want to delete '{beer.Name}'?",
+                "Yes",
+                "No");
+
+            if (!confirmDelete)
+                return;
+
+            try
             {
-                { nameof(Beer), beer }
-            });
+                await _beerService.DeleteBeerAsync(beer);
+
+                Beers.Remove(beer);
+
+                _logger.LogInformation("Deleted beer: {BeerName}", beer.Name);
+            }
+            catch (SQLiteException sqlEx)
+            {
+                _logger.LogError(sqlEx, "SQLite error while deleting beer");
+
+                await Shell.Current.DisplayAlertAsync(
+                    "Database Error",
+                    "An error occurred while accessing the database. Please try again later.",
+                    "OK");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting beer");
+
+                await Shell.Current.DisplayAlertAsync(
+                    "Error",
+                    "Failed to delete the beer. Please try again later.",
+                    "OK");
+            }
         }
     }
 }

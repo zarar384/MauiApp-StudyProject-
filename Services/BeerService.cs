@@ -22,5 +22,21 @@ namespace MauiApp_StudyProject_.Services
         {
             return _db.InsertAsync(beer);
         }
+
+        public Task<int> DeleteBeerAsync(Beer beer)
+        {
+            return _db.DeleteAsync(beer);
+        }
+
+        public Task<Beer> GetBeerByIdAsync(int beerId)
+        {
+            return _db.Table<Beer>()
+                .FirstOrDefaultAsync(b => b.Id == beerId);
+        }
+
+        public Task<int> UpdateBeerAsync(Beer beer)
+        {
+            return _db.UpdateAsync(beer);
+        }
     }
 }

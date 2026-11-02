@@ -4,11 +4,40 @@
              xmlns:viewmodel="clr-namespace:MauiApp_StudyProject_.ViewModels"
              x:Class="MauiApp_StudyProject_.Views.BeerDetailPage"
              x:DataType="viewmodel:BeerDetailViewModel"
-             Title="{Binding Beer.Name}">
-    <VerticalStackLayout>
-        <Label 
-            Text="{Binding Beer.Description}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="{Binding PageTitle}">
+    <ScrollView>
+        <VerticalStackLayout 
+            Padding="20" 
+            Spacing="15">
+            <Label Text="Name"
+                   FontAttributes="Bold"/>
+            <Entry Text="{Binding Beer.Name, Mode=TwoWay}"
+                   IsReadOnly="{Binding IsReadOnly}"
+                   IsEnabled="{Binding IsNotLoading}"
+                   Placeholder="Enter beer name"/>
+
+            <Label Text="Description"
+                   FontAttributes="Bold"/>
+            <Editor Text="{Binding Beer.Description, Mode=TwoWay}"
+                    IsReadOnly="{Binding IsReadOnly}"
+                    IsEnabled="{Binding IsNotLoading}"
+                    Placeholder="Short description of the beer"
+                    AutoSize="TextChanges"
+                    MinimumHeightRequest="110"/>
+
+            <Label Text="Alcohol Content (%)"
+                   FontAttributes="Bold"/>
+            <Entry Text="{Binding Beer.AlcoholContent, Mode=TwoWay}"
+                   IsReadOnly="{Binding IsReadOnly}"
+                   IsEnabled="{Binding IsNotLoading}"
+                   Placeholder="For example, 4.5"
+                   Keyboard="Numeric"/>
+
+            <Button Text="Ok"
+                    Command="{Binding SaveBeerCommand}"
+                    IsVisible="{Binding IsSaveVisible}"
+                    IsEnabled="{Binding IsNotLoading}"
+                    Margin="0,12,0,0"/>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

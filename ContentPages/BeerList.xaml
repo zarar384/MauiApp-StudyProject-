@@ -5,6 +5,16 @@
              x:Class="MauiApp_StudyProject_.ContentPages.BeerList"
              x:DataType="viewmodel:BeerViewModel"
              Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <!--Add-->
+        <ToolbarItem Text="Add Beer"
+                     Command="{Binding AddBeerCommand}"
+                     Order="Primary"
+                     Priority="0" />
+
+    </ContentPage.ToolbarItems>
+
+    <!--List of Beers-->
     <Grid RowDefinitions="*,Auto"
           RowSpacing="10">
         <RefreshView Grid.Row="0"
@@ -25,21 +35,42 @@
                             </Border.StrokeShape>
 
                             <Border.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:BeerViewModel}}, Path=BeerSelectedCommand}" 
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:BeerViewModel}}, Path=ViewBeerCommand}" 
                                                       CommandParameter="{Binding .}"/>
                             </Border.GestureRecognizers>
 
-                            <VerticalStackLayout Spacing="5">
-                                <Label Text="{Binding Name}"
+                            <Grid ColumnDefinitions="*,Auto"
+                                  ColumnSpacing="12">
+                                <VerticalStackLayout Grid.Column="0"
+                                    Spacing="5">
+                                    <Label Text="{Binding Name}"
                                        FontAttributes="Bold"
                                        FontSize="Medium"/>
 
-                                <Label Text="{Binding Description}"
+                                    <Label Text="{Binding Description}"
                                        FontSize="Small"/>
 
-                                <Label Text="{Binding AlcoholContent}"
+                                    <Label Text="{Binding AlcoholContent}"
                                        FontSize="Small"/>
-                            </VerticalStackLayout>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Column="1"
+                                                     WidthRequest="90"
+                                                     Spacing="6"
+                                                     VerticalOptions="Center">
+                                    <Button Text="Edit"
+                                            HeightRequest="40"
+                                            HorizontalOptions="Fill"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:BeerViewModel}}, Path=EditBeerCommand}"
+                                            CommandParameter="{Binding .}"/>
+
+                                    <Button Text="Delete" 
+                                            HeightRequest="40"
+                                            HorizontalOptions="Fill"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:BeerViewModel}}, Path=DeleteBeerCommand}"
+                                            CommandParameter="{Binding .}"/>
+                                </VerticalStackLayout>
+                            </Grid>
 
                         </Border>
                     </DataTemplate>
