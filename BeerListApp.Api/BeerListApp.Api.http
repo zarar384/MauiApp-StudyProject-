@@ -1,0 +1,6 @@
+@BeerListApp.Api_HostAddress = http://localhost:5072
+
+# GET {{BeerListApp.Api_HostAddress}}/weatherforecast/
+# Accept: application/json
+
+###
