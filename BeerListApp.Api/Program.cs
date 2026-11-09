@@ -1,4 +1,8 @@
 
+using BeerListApp.Api.Data;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
+
 namespace BeerListApp.Api
 {
     public class Program
@@ -23,6 +27,11 @@ namespace BeerListApp.Api
                            .AllowAnyHeader(); // Allow any HTTP headers (Authorization, Content-Type, etc.)
                 });
             });
+
+            // Add the DbContext with SQLite configuration
+            var dbPath = Path.Combine(builder.Environment.ContentRootPath, "BeerListApp.db");
+            var connection = new SqliteConnection($"Data Source={dbPath}");
+            builder.Services.AddDbContext<BeerListAppDbContext>(options => options.UseSqlite(connection));
 
             var app = builder.Build();
 
