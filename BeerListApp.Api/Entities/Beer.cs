@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace BeerListApp.Api.Entities
+﻿namespace BeerListApp.Api.Entities
 {
     public class Beer
     {

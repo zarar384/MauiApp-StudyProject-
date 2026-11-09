@@ -1,7 +1,6 @@
 
-using BeerListApp.Api.Data;
+using BeerListApp.Api.Endpoints;
 using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
 
 namespace BeerListApp.Api
 {
@@ -45,12 +44,13 @@ namespace BeerListApp.Api
             app.UseAuthorization();
             app.UseCors();
 
-            //app.MapGet("/endpoint", (HttpContext httpContext) =>
-            //{
-            //})
-            //.WithName("EndpointName");
+            // Map the beer minimal API endpoints
+            app.MapBeerEndpoints();
 
             app.Run();
         }
     }
 }
+
+// Make the Program class partial to allow access in integration tests
+public partial class Program { } 

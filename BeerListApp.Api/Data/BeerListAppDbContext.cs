@@ -1,7 +1,4 @@
-﻿using BeerListApp.Api.Entities;
-using Microsoft.EntityFrameworkCore;
-
-namespace BeerListApp.Api.Data
+﻿namespace BeerListApp.Api.Data
 {
     public class BeerListAppDbContext : DbContext
     {

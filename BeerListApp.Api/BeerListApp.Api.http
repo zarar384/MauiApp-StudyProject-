@@ -1,6 +1,52 @@
 @BeerListApp.Api_HostAddress = http://localhost:5072
+@RootUrl = {{BeerListApp.Api_HostAddress}}/api/beers
+@BeerId = 1
 
-# GET {{BeerListApp.Api_HostAddress}}/weatherforecast/
-# Accept: application/json
+### GET: Get all beers
+GET {{RootUrl}}
+Accept: application/json
 
-###
+### GET: Get beer by ID
+GET {{RootUrl}}/{{BeerId}}
+Accept: application/json
+
+### POST: Create a beer
+POST {{RootUrl}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Pilsner Urquell",
+  "description": "Traditional Czech lager",
+  "alcoholContent": 4
+}
+
+### PUT: Update a beer
+PUT {{RootUrl}}/{{BeerId}}
+Content-Type: application/json
+
+{
+  "name": "Updated Pilsner Urquell",
+  "description": "Updated Czech lager description",
+  "alcoholContent": 5
+}
+
+### DELETE: Delete a beer
+DELETE {{RootUrl}}/{{BeerId}}
+
+### GET: Beer not found (404)
+GET {{RootUrl}}/999999
+Accept: application/json
+
+### PUT: Beer not found (404)
+PUT {{RootUrl}}/999999
+Content-Type: application/json
+
+{
+  "name": "Unknown Beer",
+  "description": "This beer does not exist",
+  "alcoholContent": 5
+}
+
+### DELETE: Beer not found (404)
+DELETE {{RootUrl}}/999999

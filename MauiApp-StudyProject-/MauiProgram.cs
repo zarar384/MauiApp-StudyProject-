@@ -2,7 +2,6 @@
 using MauiApp_StudyProject_.Services;
 using MauiApp_StudyProject_.ViewModels;
 using Microsoft.Extensions.Logging;
-using SQLite;
 
 namespace MauiApp_StudyProject_;
 
