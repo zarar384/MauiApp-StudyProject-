@@ -28,19 +28,29 @@ namespace BeerListApp.Api
             });
 
             // Add the DbContext with SQLite configuration
-            var dbPath = Path.Combine(builder.Environment.ContentRootPath, "BeerListApp.db");
-            var connection = new SqliteConnection($"Data Source={dbPath}");
-            builder.Services.AddDbContext<BeerListAppDbContext>(options => options.UseSqlite(connection));
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=BeerListApp.db";
+            builder.Services.AddDbContext<BeerListAppDbContext>(options => options.UseSqlite(connectionString));
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
+                using var scope = app.Services.CreateScope();
+
+                // Apply any pending migrations to the database
+                var db = scope.ServiceProvider.GetRequiredService<BeerListAppDbContext>();
+                db.Database.Migrate();
+
                 app.MapOpenApi();
             }
 
-            app.UseHttpsRedirection();
+            // Configure the HTTP request pipeline for non-development environments
+            if (!app.Environment.IsDevelopment())
+            {
+                app.UseHttpsRedirection();
+            }
+
             app.UseAuthorization();
             app.UseCors();
 

@@ -1,4 +1,9 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".dockerignore" />
+    <File Path="docker-compose.yml" />
+    <File Path="dockerfile" />
+  </Folder>
   <Project Path="BeerListApp.Api/BeerListApp.Api.csproj" />
   <Project Path="BeerListApp.Tests/BeerListApp.Tests.csproj" Id="1cde6048-0bcf-434a-971b-978fa7ba6ac2" />
   <Project Path="MauiApp-StudyProject-/MauiApp-StudyProject-.csproj" />
