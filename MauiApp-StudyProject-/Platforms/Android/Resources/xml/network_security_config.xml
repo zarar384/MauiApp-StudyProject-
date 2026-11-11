@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+	<!-- Deny HTTP by default -->
+	<base-config cleartextTrafficPermitted="false" />
+
+	<!-- Local development only -->
+	<domain-config cleartextTrafficPermitted="true">
+		<!-- Android Emulator - Host machine -->
+		<domain>10.0.2.2</domain>
+
+		<!-- Localhost on the Android device -->
+		<domain>localhost</domain>
+	</domain-config>
+</network-security-config>
