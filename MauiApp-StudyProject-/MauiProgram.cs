@@ -1,4 +1,5 @@
-﻿using MauiApp_StudyProject_.Data;
+﻿using MauiApp_StudyProject_.Configuration;
+using MauiApp_StudyProject_.Data;
 using MauiApp_StudyProject_.Services;
 using MauiApp_StudyProject_.ViewModels;
 using Microsoft.Extensions.Logging;
@@ -20,17 +21,24 @@ public static class MauiProgram
 
 		// Register SQLite connection
 		builder.Services.AddSingleton<AppDatabase>();
-
-        // Register services
         builder.Services.AddSingleton<IBeerService, BeerService>();
 
+        // HTTP API service
+        builder.Services.AddHttpClient<IBeerApiService, BeerApiService>(client =>
+        {
+            client.BaseAddress = new Uri(ApiConfig.BaseUrl);
+        });
+
+        // Service selector to choose between API and local database
+        builder.Services.AddTransient<IBeerSelectorService, BeerServiceSelector>();
+
         // Register view models
-        builder.Services.AddSingleton<BeerViewModel>();
-		builder.Services.AddSingleton<BeerDetailViewModel>();
+        builder.Services.AddTransient<BeerViewModel>();
+		builder.Services.AddTransient<BeerDetailViewModel>();
 
         // Register pages
-        builder.Services.AddSingleton<ContentPages.BeerList>();
-		builder.Services.AddSingleton<Views.BeerDetailPage>();
+        builder.Services.AddTransient<ContentPages.BeerList>();
+		builder.Services.AddTransient<Views.BeerDetailPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();

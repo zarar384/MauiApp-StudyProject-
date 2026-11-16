@@ -75,6 +75,18 @@
 
                 return Results.NoContent();
             });
+
+            // GET: api/beers/health
+            // Health check endpoint to verify database connectivity.
+            group.MapGet("/health", async (BeerListAppDbContext dbContext, CancellationToken cancellationToken) =>
+            {
+                var isConnected = await dbContext.Database
+                    .CanConnectAsync(cancellationToken);
+
+                return isConnected
+                    ? Results.Ok()
+                    : Results.StatusCode(StatusCodes.Status503ServiceUnavailable);
+            });
         }
     }
 }

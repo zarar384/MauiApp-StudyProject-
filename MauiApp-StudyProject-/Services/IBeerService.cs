@@ -2,6 +2,14 @@
 
 namespace MauiApp_StudyProject_.Services
 {
+    public interface IBeerSelectorService: IBeerService
+    {
+        /// <summary>
+        /// Determines whether to use the API or the database for beer operations.
+        /// </summary>
+        Task<bool> UseApiAsync();
+    }
+
     public interface IBeerService
     {
         /// <summary>
@@ -12,21 +20,21 @@ namespace MauiApp_StudyProject_.Services
         /// <summary>
         /// Get beer by Id
         /// </summary>
-        Task<Beer> GetBeerByIdAsync(int beerId);
+        Task<Beer?> GetBeerByIdAsync(int beerId);
 
         /// <summary>
         /// Add a new beer to the database.
         /// </summary>
-        Task<int> AddBeerAsync(Beer beer);
+        Task<Beer> AddBeerAsync(Beer beer);
 
         /// <summary>
         /// Update an existing beer in the database.
         /// </summary>
-        Task<int> UpdateBeerAsync(Beer beer);
+        Task UpdateBeerAsync(Beer beer);
 
         /// <summary>
         /// Delete a beer from the database.
         /// </summary>
-        Task<int> DeleteBeerAsync(Beer beer);
+        Task DeleteBeerAsync(Beer beer);
     }
 }

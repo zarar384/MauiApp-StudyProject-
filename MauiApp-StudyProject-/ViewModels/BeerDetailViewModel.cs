@@ -16,7 +16,7 @@ namespace MauiApp_StudyProject_.ViewModels
     //[QueryProperty(nameof(Beer), nameof(Beer))]
     public partial class BeerDetailViewModel : BaseViewModel, IQueryAttributable
     {
-        private readonly IBeerService _beerService;
+        private readonly IBeerSelectorService _beerService;
         private readonly ILogger<BeerDetailViewModel> _logger;
 
         [ObservableProperty]
@@ -46,7 +46,7 @@ namespace MauiApp_StudyProject_.ViewModels
         private bool _isInitialized;
 
         public BeerDetailViewModel(
-            IBeerService beerService, 
+            IBeerSelectorService beerService, 
             ILogger<BeerDetailViewModel> logger)
         {
             _beerService = beerService;

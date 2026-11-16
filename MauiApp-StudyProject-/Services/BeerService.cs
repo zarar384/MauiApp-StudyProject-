@@ -13,30 +13,31 @@ namespace MauiApp_StudyProject_.Services
             _db = db.Connection;
         }
 
-        public Task<List<Beer>> GetBeersAsync()
+        public async Task<List<Beer>> GetBeersAsync()
         {
-            return _db.Table<Beer>().ToListAsync();
+            return await _db.Table<Beer>().ToListAsync();
         }
 
-        public Task<int> AddBeerAsync(Beer beer)
+        public async Task<Beer> AddBeerAsync(Beer beer)
         {
-            return _db.InsertAsync(beer);
+            await _db.InsertAsync(beer);
+            return beer;
         }
 
-        public Task<int> DeleteBeerAsync(Beer beer)
+        public async Task DeleteBeerAsync(Beer beer)
         {
-            return _db.DeleteAsync(beer);
+            await _db.DeleteAsync(beer);
         }
 
-        public Task<Beer> GetBeerByIdAsync(int beerId)
+        public async Task<Beer?> GetBeerByIdAsync(int beerId)
         {
-            return _db.Table<Beer>()
+            return await _db.Table<Beer>()
                 .FirstOrDefaultAsync(b => b.Id == beerId);
         }
 
-        public Task<int> UpdateBeerAsync(Beer beer)
+        public async Task UpdateBeerAsync(Beer beer)
         {
-            return _db.UpdateAsync(beer);
+            await _db.UpdateAsync(beer);
         }
     }
 }
