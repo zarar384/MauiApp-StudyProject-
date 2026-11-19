@@ -1,9 +1,9 @@
 ﻿using System.Data.Common;
+using BeerListApp.Api;
 using BeerListApp.Api.Data;
 using BeerListApp.Api.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;

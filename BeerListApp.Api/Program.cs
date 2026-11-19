@@ -1,5 +1,6 @@
 
 using BeerListApp.Api.Endpoints;
+using Microsoft.AspNetCore.Identity;
 
 namespace BeerListApp.Api
 {
@@ -29,6 +30,18 @@ namespace BeerListApp.Api
             // Add the DbContext with SQLite configuration
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=BeerListApp.db";
             builder.Services.AddDbContext<BeerListAppDbContext>(options => options.UseSqlite(connectionString));
+
+            // Add Identity services for authentication and authorization
+            builder.Services.AddIdentityCore<IdentityUser>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 12;
+            })
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<BeerListAppDbContext>();
 
             // Add Serilog for logging
             builder.Services.AddSerilog((services, logger) => logger

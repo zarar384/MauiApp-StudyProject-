@@ -1,6 +1,8 @@
-﻿namespace BeerListApp.Api.Data
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
+namespace BeerListApp.Api.Data
 {
-    public class BeerListAppDbContext : DbContext
+    public class BeerListAppDbContext : IdentityDbContext
     {
         public DbSet<Beer> Beers { get; set; }
 
