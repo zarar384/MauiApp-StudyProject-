@@ -1,17 +1,23 @@
-﻿namespace BeerListApp.Api.Endpoints
+﻿
+namespace BeerListApp.Api.Endpoints
 {
     public static class BeerEndpoints
     {
         public static void MapBeerEndpoints(this IEndpointRouteBuilder app)
         {
-            var group = app.MapGroup("api/beers").WithTags("Beer Endpoints");
+            var logger = app.ServiceProvider
+                .GetRequiredService<ILoggerFactory>()
+                .CreateLogger(typeof(BeerEndpoints).FullName!);
+
+            var group = app.MapGroup("api/beers")
+                .WithTags("Beer Endpoints");
 
             // GET: api/beers
             // Returns a list of all beers in the database.
             group.MapGet("/", async (BeerListAppDbContext dbContext) =>
             {
                 var beers = await dbContext.Beers.ToListAsync();
-                
+
                 return Results.Ok(beers);
             });
 
@@ -20,12 +26,12 @@
             group.MapGet("/{id:int}", async (int id, BeerListAppDbContext dbContext) =>
             {
                 var beer = await dbContext.Beers.FindAsync(id);
-                
+
                 if (beer == null)
                 {
                     return Results.NotFound();
                 }
-               
+
                 return Results.Ok(beer);
             });
 
@@ -35,6 +41,8 @@
             {
                 dbContext.Beers.Add(beer);
                 await dbContext.SaveChangesAsync();
+
+                logger.LogInformation("Beer created successfully. BeerId: {BeerId}", beer.Id);
 
                 return Results.Created($"/api/beers/{beer.Id}", beer);
             });
@@ -49,13 +57,15 @@
                 {
                     return Results.NotFound();
                 }
-               
+
                 beer.Name = updatedBeer.Name;
                 beer.Description = updatedBeer.Description;
                 beer.AlcoholContent = updatedBeer.AlcoholContent;
 
                 await dbContext.SaveChangesAsync();
-                
+
+                logger.LogInformation("Beer updated successfully. BeerId: {BeerId}", id);
+
                 return Results.NoContent();
             });
 
@@ -64,28 +74,34 @@
             group.MapDelete("/{id:int}", async (int id, BeerListAppDbContext dbContext) =>
             {
                 var beer = await dbContext.Beers.FindAsync(id);
-               
+
                 if (beer == null)
                 {
                     return Results.NotFound();
                 }
-                
+
                 dbContext.Beers.Remove(beer);
                 await dbContext.SaveChangesAsync();
+
+                logger.LogInformation("Beer deleted successfully. BeerId: {BeerId}", id);
 
                 return Results.NoContent();
             });
 
             // GET: api/beers/health
-            // Health check endpoint to verify database connectivity.
             group.MapGet("/health", async (BeerListAppDbContext dbContext, CancellationToken cancellationToken) =>
             {
                 var isConnected = await dbContext.Database
                     .CanConnectAsync(cancellationToken);
 
-                return isConnected
-                    ? Results.Ok()
-                    : Results.StatusCode(StatusCodes.Status503ServiceUnavailable);
+                if (!isConnected)
+                {
+                    logger.LogWarning("Database health check failed. Database connection unavailable.");
+
+                    return Results.StatusCode(StatusCodes.Status503ServiceUnavailable);
+                }
+
+                return Results.Ok();
             });
         }
     }

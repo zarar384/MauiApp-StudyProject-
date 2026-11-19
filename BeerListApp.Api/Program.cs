@@ -1,10 +1,9 @@
 
 using BeerListApp.Api.Endpoints;
-using Microsoft.Data.Sqlite;
 
 namespace BeerListApp.Api
 {
-    public class Program
+    public partial class Program
     {
         public static void Main(string[] args)
         {
@@ -31,7 +30,17 @@ namespace BeerListApp.Api
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=BeerListApp.db";
             builder.Services.AddDbContext<BeerListAppDbContext>(options => options.UseSqlite(connectionString));
 
+            // Add Serilog for logging
+            builder.Services.AddSerilog((services, logger) => logger
+                .ReadFrom.Configuration(builder.Configuration) // Read configuration from appsettings.json
+                .ReadFrom.Services(services)                   // Read configuration from registered services
+                .Enrich.FromLogContext()                       // Enrich logs with contextual information
+                .WriteTo.Console());                           // Write logs to the console
+
             var app = builder.Build();
+
+            // Configure Serilog request logging
+            app.UseSerilogRequestLogging();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -51,8 +60,8 @@ namespace BeerListApp.Api
                 app.UseHttpsRedirection();
             }
 
-            app.UseAuthorization();
             app.UseCors();
+            app.UseAuthorization();
 
             // Map the beer minimal API endpoints
             app.MapBeerEndpoints();
@@ -61,6 +70,3 @@ namespace BeerListApp.Api
         }
     }
 }
-
-// Make the Program class partial to allow access in integration tests
-public partial class Program { } 
