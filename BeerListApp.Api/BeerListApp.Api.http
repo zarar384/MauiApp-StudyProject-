@@ -1,6 +1,20 @@
+
 @BeerListApp.Api_HostAddress = http://localhost:5072
 @RootUrl = {{BeerListApp.Api_HostAddress}}/api/beers
+@LoginUrl = {{BeerListApp.Api_HostAddress}}/api/login
 @BeerId = 1
+
+### POST: Login
+# Authenticates a user and returns a JWT token.
+# @name login
+POST {{LoginUrl}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "your-username",
+  "password": "your-password"
+}
 
 ### GET: Get all beers
 GET {{RootUrl}}
@@ -11,7 +25,9 @@ GET {{RootUrl}}/{{BeerId}}
 Accept: application/json
 
 ### POST: Create a beer
+# Requires JWT authentication.
 POST {{RootUrl}}
+Authorization: Bearer {{login.response.body.$.accessToken}}
 Content-Type: application/json
 Accept: application/json
 
@@ -22,7 +38,9 @@ Accept: application/json
 }
 
 ### PUT: Update a beer
+# Requires JWT authentication.
 PUT {{RootUrl}}/{{BeerId}}
+Authorization: Bearer {{login.response.body.$.accessToken}}
 Content-Type: application/json
 
 {
@@ -32,14 +50,18 @@ Content-Type: application/json
 }
 
 ### DELETE: Delete a beer
+# Requires JWT authentication.
 DELETE {{RootUrl}}/{{BeerId}}
+Authorization: Bearer {{login.response.body.$.accessToken}}
 
 ### GET: Beer not found (404)
 GET {{RootUrl}}/999999
 Accept: application/json
 
 ### PUT: Beer not found (404)
+# Requires JWT authentication.
 PUT {{RootUrl}}/999999
+Authorization: Bearer {{login.response.body.$.accessToken}}
 Content-Type: application/json
 
 {
@@ -49,4 +71,21 @@ Content-Type: application/json
 }
 
 ### DELETE: Beer not found (404)
+# Requires JWT authentication.
 DELETE {{RootUrl}}/999999
+Authorization: Bearer {{login.response.body.$.accessToken}}
+
+### GET: Database health check
+GET {{RootUrl}}/health
+Accept: application/json
+
+### POST: Create a beer without JWT (401)
+# Verifies that authentication is required.
+POST {{RootUrl}}
+Content-Type: application/json
+
+{
+  "name": "Unauthorized Beer",
+  "description": "Should not be created",
+  "alcoholContent": 4
+}
