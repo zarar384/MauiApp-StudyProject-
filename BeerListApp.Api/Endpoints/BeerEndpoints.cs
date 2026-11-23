@@ -9,6 +9,7 @@ namespace BeerListApp.Api.Endpoints
                 .GetRequiredService<ILoggerFactory>()
                 .CreateLogger(typeof(BeerEndpoints).FullName!);
 
+            // Require JWT authentication for all beer endpoints
             var group = app.MapGroup("api/beers")
                 .WithTags("Beer Endpoints");
 
@@ -45,7 +46,8 @@ namespace BeerListApp.Api.Endpoints
                 logger.LogInformation("Beer created successfully. BeerId: {BeerId}", beer.Id);
 
                 return Results.Created($"/api/beers/{beer.Id}", beer);
-            });
+            })
+            .RequireAuthorization();
 
             // PUT: api/beers/{id}
             // Updates an existing beer in the database.
@@ -67,7 +69,8 @@ namespace BeerListApp.Api.Endpoints
                 logger.LogInformation("Beer updated successfully. BeerId: {BeerId}", id);
 
                 return Results.NoContent();
-            });
+            })
+            .RequireAuthorization();
 
             // DELETE: api/beers/{id}
             // Deletes a specific beer from the database.
@@ -86,9 +89,11 @@ namespace BeerListApp.Api.Endpoints
                 logger.LogInformation("Beer deleted successfully. BeerId: {BeerId}", id);
 
                 return Results.NoContent();
-            });
+            })
+            .RequireAuthorization();
 
             // GET: api/beers/health
+            // Checks database connectivity without requiring authentication.
             group.MapGet("/health", async (BeerListAppDbContext dbContext, CancellationToken cancellationToken) =>
             {
                 var isConnected = await dbContext.Database
@@ -102,7 +107,8 @@ namespace BeerListApp.Api.Endpoints
                 }
 
                 return Results.Ok();
-            });
+            })
+            .AllowAnonymous();
         }
     }
 }

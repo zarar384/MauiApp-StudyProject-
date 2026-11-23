@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿
+using System.Net;
 using System.Net.Http.Json;
 using BeerListApp.Api.Entities;
 using BeerListApp.Tests.Infrastructure;
@@ -91,7 +92,7 @@ namespace BeerListApp.Tests.Endpoints
         public async Task Create_WhenBeerIsValid_ReturnsCreated()
         {
             using var factory = new BeerApiFactory();
-            using var client = await factory.CreateTestClientAsync();
+            using var client = await factory.CreateAuthorizedClientAsync();
 
             var newBeer = new
             {
@@ -122,12 +123,60 @@ namespace BeerListApp.Tests.Endpoints
             Assert.Equal(4d, Convert.ToDouble(savedBeer.AlcoholContent));
         }
 
+        // POST /api/beers
+        [Fact]
+        public async Task Create_WithoutToken_ReturnsUnauthorized()
+        {
+            using var factory = new BeerApiFactory();
+            using var client = await factory.CreateTestClientAsync();
+
+            var newBeer = new
+            {
+                Name = "Guinness",
+                Description = "Irish stout",
+                AlcoholContent = 4
+            };
+
+            var response = await client.PostAsJsonAsync("/api/beers", newBeer);
+
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+
+            // Verify that the beer was not created.
+            var beers = await client.GetFromJsonAsync<List<Beer>>("/api/beers");
+
+            Assert.NotNull(beers);
+            Assert.Empty(beers);
+        }
+
+        // POST /api/beers
+        [Fact]
+        public async Task Create_WithInvalidToken_ReturnsUnauthorized()
+        {
+            using var factory = new BeerApiFactory();
+            using var client = await factory.CreateTestClientAsync();
+
+            client.DefaultRequestHeaders.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue(
+                    "Bearer", "invalid-token");
+
+            var newBeer = new
+            {
+                Name = "Guinness",
+                Description = "Irish stout",
+                AlcoholContent = 4
+            };
+
+            var response = await client.PostAsJsonAsync("/api/beers", newBeer);
+
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
+
         // PUT /api/beers/{id}
         [Fact]
         public async Task Update_WhenBeerExists_ReturnsNoContent()
         {
             using var factory = new BeerApiFactory();
-            using var client = await factory.CreateTestClientAsync();
+            using var client = await factory.CreateAuthorizedClientAsync();
 
             var beerId = await factory.AddBeerAsync("Old Beer", "Old description", 4);
 
@@ -157,7 +206,7 @@ namespace BeerListApp.Tests.Endpoints
         public async Task Update_WhenBeerDoesNotExist_ReturnsNotFound()
         {
             using var factory = new BeerApiFactory();
-            using var client = await factory.CreateTestClientAsync();
+            using var client = await factory.CreateAuthorizedClientAsync();
 
             var updatedBeer = new
             {
@@ -166,7 +215,7 @@ namespace BeerListApp.Tests.Endpoints
                 AlcoholContent = 5
             };
 
-            var response = await client.PutAsJsonAsync($"/api/beers/999", updatedBeer);
+            var response = await client.PutAsJsonAsync("/api/beers/999", updatedBeer);
 
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
 
@@ -176,12 +225,39 @@ namespace BeerListApp.Tests.Endpoints
             Assert.Null(beer);
         }
 
+        // PUT /api/beers/{id}
+        [Fact]
+        public async Task Update_WithoutToken_ReturnsUnauthorized()
+        {
+            using var factory = new BeerApiFactory();
+            using var client = await factory.CreateTestClientAsync();
+
+            var beerId = await factory.AddBeerAsync("Old Beer", "Old description", 4);
+
+            var updatedBeer = new
+            {
+                Name = "Updated Beer",
+                Description = "Updated description",
+                AlcoholContent = 7
+            };
+
+            var response = await client.PutAsJsonAsync($"/api/beers/{beerId}", updatedBeer);
+
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+
+            // Verify that the beer was not updated.
+            var savedBeer = await factory.FindBeerAsync(beerId);
+
+            Assert.NotNull(savedBeer);
+            Assert.Equal("Old Beer", savedBeer.Name);
+        }
+
         // DELETE /api/beers/{id}
         [Fact]
         public async Task Delete_WhenBeerExists_ReturnsNoContent()
         {
             using var factory = new BeerApiFactory();
-            using var client = await factory.CreateTestClientAsync();
+            using var client = await factory.CreateAuthorizedClientAsync();
 
             var beerId = await factory.AddBeerAsync("Beer to delete", "Temporary beer", 5);
 
@@ -200,11 +276,42 @@ namespace BeerListApp.Tests.Endpoints
         public async Task Delete_WhenBeerDoesNotExist_ReturnsNotFound()
         {
             using var factory = new BeerApiFactory();
-            using var client = await factory.CreateTestClientAsync();
+            using var client = await factory.CreateAuthorizedClientAsync();
 
             var response = await client.DeleteAsync("/api/beers/999");
 
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        // DELETE /api/beers/{id}
+        [Fact]
+        public async Task Delete_WithoutToken_ReturnsUnauthorized()
+        {
+            using var factory = new BeerApiFactory();
+            using var client = await factory.CreateTestClientAsync();
+
+            var beerId = await factory.AddBeerAsync("Beer to delete", "Temporary beer", 5);
+
+            var response = await client.DeleteAsync($"/api/beers/{beerId}");
+
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+
+            // Verify that the beer still exists.
+            var savedBeer = await factory.FindBeerAsync(beerId);
+
+            Assert.NotNull(savedBeer);
+        }
+
+        // GET /api/beers/health
+        [Fact]
+        public async Task Health_WithoutToken_ReturnsOk()
+        {
+            using var factory = new BeerApiFactory();
+            using var client = await factory.CreateTestClientAsync();
+
+            var response = await client.GetAsync("/api/beers/health");
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
     }
 }

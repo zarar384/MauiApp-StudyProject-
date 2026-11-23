@@ -1,0 +1,36 @@
+
+# JWT User Secrets (.NET / Visual Studio)
+# Run commands in Package Manager Console (PM>)
+# Replace the project path if needed.
+
+# 1. Initialize User Secrets (only once per project)
+dotnet user-secrets init --project .\BeerListApp.Api\BeerListApp.Api.csproj
+
+# 2. Generate a secure random JWT key (256-bit)
+$bytes = New-Object byte[] 32
+$rng = [Security.Cryptography.RandomNumberGenerator]::Create()
+$rng.GetBytes($bytes)
+$rng.Dispose()
+$key = [Convert]::ToBase64String($bytes)
+
+# 3. Save the JWT key to User Secrets
+dotnet user-secrets set "Jwt:Key" $key --project .\BeerListApp.Api\BeerListApp.Api.csproj
+
+# 4. Check saved secrets
+dotnet user-secrets list --project .\BeerListApp.Api\BeerListApp.Api.csproj
+
+# 5. View or edit secrets manually
+# Visual Studio -> Right-click BeerListApp.Api -> Manage User Secrets
+
+# 6. Update JWT key (generate a new key using step 2, then run step 3)
+# Warning: Existing JWT tokens will become invalid after changing the key.
+
+# 7. Remove JWT key (if needed)
+dotnet user-secrets remove "Jwt:Key" --project .\BeerListApp.Api\BeerListApp.Api.csproj
+
+# Notes
+# --project specifies the path to the .csproj file.
+# User Secrets are automatically loaded in Development.
+# Secrets are stored outside the project folder.
+# Never commit JWT keys to Git or store them in appsettings.json.
+# User Secrets are for local development, not production.
